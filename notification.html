@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Purple Notification Panel</title>
+
+<style>
+  body {
+    background: #1E0A47;  
+    margin: 0;
+    padding: 40px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #111;
+  }
+
+  .notif-panel {
+    width: 360px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    top: 90px;
+    left: 40px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .notif-header {
+    background: #2D0C59;   
+    padding: 10px 14px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    user-select: none;
+    cursor: grab;
+  }
+
+  .notif-header:active {
+    cursor: grabbing;
+  }
+
+  .notif-list {
+    height: 220px;     
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  .notif-item {
+    background: #7CB342; 
+    margin: 8px;
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: #fff;
+    position: relative;
+  }
+
+  .notif-title {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .notif-sub {
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .notif-timer {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  .notif-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
+  }
+
+  .notif-footer {
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #ddd;
+    background: #fff;
+  }
+
+  .dismiss-all-btn {
+    background: #C62828;  
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+  }
+
+  .dismiss-all-btn:hover {
+    background: #B71C1C;
+  }
+</style>
+</head>
+<body>
+
+<div class="notif-panel" id="notifPanel">
+
+  <div class="notif-header" id="notifHeader">
+    Notifications (3)
+  </div>
+
+  <div class="notif-list" id="notifList">
+
+    <div class="notif-item">
+      <div class="notif-title">PIF Saudi International - Rd 1</div>
+      <div class="notif-sub">Slate In/Binge</div>
+      <div class="notif-timer">00:00:46</div>
+      <div class="notif-close" onclick="this.parentElement.remove()">×</div>
+    </div>
+
+    <div class="notif-item">
+      <div class="notif-title">India vs Australia - 3rd ODI</div>
+      <div class="notif-sub">Live Countdown</div>
+      <div class="notif-timer">00:12:25</div>
+      <div class="notif-close" onclick="this.parentElement.remove()">×</div>
+    </div>
+
+    <div class="notif-item">
+      <div class="notif-title">Liverpool vs Arsenal</div>
+      <div class="notif-sub">Match Starts Soon</div>
+      <div class="notif-timer">00:25:10</div>
+      <div class="notif-close" onclick="this.parentElement.remove()">×</div>
+    </div>
+
+  </div>
+
+  <div class="notif-footer">
+    <button class="dismiss-all-btn" onclick="clearAll()">Dismiss All</button>
+  </div>
+
+</div>
+
+<script>
+let panel = document.getElementById("notifPanel");
+let header = document.getElementById("notifHeader");
+
+let offsetX = 0;
+let offsetY = 0;
+let isDragging = false;
+
+header.addEventListener("mousedown", function (e) {
+  isDragging = true;
+  offsetX = e.clientX - panel.offsetLeft;
+  offsetY = e.clientY - panel.offsetTop;
+});
+
+document.addEventListener("mousemove", function (e) {
+  if (!isDragging) return;
+  panel.style.left = e.clientX - offsetX + "px";
+  panel.style.top = e.clientY - offsetY + "px";
+});
+
+document.addEventListener("mouseup", function () {
+  isDragging = false;
+});
+
+function clearAll() {
+  document.getElementById("notifList").innerHTML = "";
+}
+</script>
+
+</body>
+</html>
