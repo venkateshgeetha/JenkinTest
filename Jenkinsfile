@@ -1,39 +1,27 @@
 pipeline {
     agent any
 
-    stages {
+    environment {
+        PATH = "/usr/local/bin:/opt/homebrew/bin:${env.PATH}"
+    }
 
+    stages {
         stage('Checkout Code') {
             steps {
                 git url: 'https://github.com/venkateshgeetha/JenkinTest', branch: 'main'
             }
         }
 
-        stage('Install Node') {
+        stage('Verify Node') {
             steps {
-                sh 'node -v || curl -fsSL https://deb.nodesource.com/setup_18.x | bash -'
+                sh 'node -v'
+                sh 'npm -v'
             }
         }
 
         stage('List Files') {
             steps {
-                echo 'Listing project files...'
                 sh 'ls -la'
-            }
-        }
-
-        stage('Build Step') {
-            steps {
-                echo 'Running HTML project build...'
-                // If you had npm commands:
-                // sh 'npm install'
-                // sh 'npm run build'
-            }
-        }
-
-        stage('Archive Build Output') {
-            steps {
-                archiveArtifacts artifacts: '**/*.html', fingerprint: true
             }
         }
     }
