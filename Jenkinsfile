@@ -2,10 +2,12 @@ pipeline {
     agent any
 
     environment {
-        PATH = "/usr/local/bin:/opt/homebrew/bin:${env.PATH}"
+        // Add your NVM Node path
+        PATH = "/Users/604575449/.nvm/versions/node/v20.14.0/bin:${env.PATH}"
     }
 
     stages {
+
         stage('Checkout Code') {
             steps {
                 git url: 'https://github.com/venkateshgeetha/JenkinTest', branch: 'main'
@@ -14,7 +16,9 @@ pipeline {
 
         stage('Verify Node') {
             steps {
+                sh 'echo "Node version:"'
                 sh 'node -v'
+                sh 'echo "NPM version:"'
                 sh 'npm -v'
             }
         }
