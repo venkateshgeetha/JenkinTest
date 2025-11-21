@@ -1,28 +1,39 @@
 pipeline {
     agent any
- 
-    tools {
-        jdk 'jdk17'
-        maven 'maven3'
-    }
- 
+
     stages {
- 
-        stage('Checkout') {
+
+        stage('Checkout Code') {
             steps {
                 git url: 'https://github.com/venkateshgeetha/JenkinTest', branch: 'main'
             }
         }
- 
-        stage('Build & Test') {
+
+        stage('Install Node') {
             steps {
-                sh 'mvn clean package'
+                sh 'node -v || curl -fsSL https://deb.nodesource.com/setup_18.x | bash -'
             }
         }
- 
-        stage('Archive Artifact') {
+
+        stage('List Files') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                echo 'Listing project files...'
+                sh 'ls -la'
+            }
+        }
+
+        stage('Build Step') {
+            steps {
+                echo 'Running HTML project build...'
+                // If you had npm commands:
+                // sh 'npm install'
+                // sh 'npm run build'
+            }
+        }
+
+        stage('Archive Build Output') {
+            steps {
+                archiveArtifacts artifacts: '**/*.html', fingerprint: true
             }
         }
     }
